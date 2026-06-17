@@ -134,6 +134,7 @@ cd status && ../b2 -j4 toolset=clang cxxstd=17 quick
 - `libs/move`
 - `libs/intrusive`
 - `libs/interprocess`
+- `libs/sort` (fork: git@github.com:ilyasorokindev/sort.git)
 
 ## Useful CMake flags
 
