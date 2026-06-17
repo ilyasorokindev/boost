@@ -590,7 +590,7 @@
 	branch = .
 [submodule "sort"]
 	path = libs/sort
-	url = ../sort.git
+	url = git@github.com:ilyasorokindev/sort.git
 	fetchRecurseSubmodules = on-demand
 	branch = .
 [submodule "convert"]
