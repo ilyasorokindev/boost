@@ -13,3 +13,7 @@
 /.settings/
 /.project
 /.pydevproject
+/build/
+/.claude/
+a.out
+*.out
