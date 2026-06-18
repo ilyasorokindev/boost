@@ -41,6 +41,15 @@ from pathlib import Path
 try:
     import tomllib
 except ImportError:
+    import os
+    import shutil
+
+    # Auto-re-exec with Python 3.11+ if the default python3 is older.
+    for _ver in ["3.12", "3.13", "3.11", "3.14"]:
+        _candidate = shutil.which(f"python{_ver}")
+        if _candidate:
+            os.execv(_candidate, [_candidate] + sys.argv)
+    # No suitable interpreter found — give up.
     sys.stderr.write(
         "error: Python 3.11+ is required (stdlib `tomllib` not found).\n"
         "Install a newer Python or run the resolution manually per the\n"

@@ -15,3 +15,5 @@
 /.pydevproject
 /build/
 /.claude/
+a.out
+*.out
