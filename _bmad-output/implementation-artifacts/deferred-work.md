@@ -23,6 +23,16 @@
 - Gallop with mixed-win streaks (entry + exit + re-entry cycle) not tested: adaptive gallop threshold decay/growth cycle is unexercised
 - merge_collapse n-1 branch not exercised: "merge smaller pair first" tiebreaker (when stack[n-1].len < stack[n+1].len) unreachable with current adversarial data
 
+## Deferred from: code review of 3-1-extend-benchmark-numbers-with-timsort-column (2026-06-18)
+
+- Single-run benchmark, no warm-up or multi-iteration averaging: each data shape is timed once; no statistical rigor; pre-existing pattern matching `Test()`; address in a future benchmark-quality epic if needed
+- rng() signed/unsigned mismatch and modulo bias: `mt19937::operator()` returns `uint_fast32_t` used with `int` modulus; also `rng() % NELEM_TIM` has modulo bias since `mt19937::max()+1` is not divisible by 1,000,000; both match existing Generator_* pattern and spec reference impl
+- uint32_t loop index over V.size() (size_t): benign with 4 elements; pre-existing idiom from `Test()`
+
+## Deferred from: code review of 3-2-extend-benchmark-strings-with-timsort-column (2026-06-18)
+
+- Fixed algorithm ordering in TestTimsort/TestTimsortStr: timsort always runs first in the timing loop, giving it a cold-cache disadvantage relative to later algorithms; pre-existing benchmark design pattern from existing `Test()`; also applies to benchmark_numbers.cpp (Story 3.1); address in a future benchmark-quality epic alongside single-run averaging
+
 ## Deferred from: code review of 1-3-merge-engine-gallop-and-merge-functions (2026-06-18)
 
 - Signed overflow in gallop `ofs = (ofs<<1)|1` (timsort.hpp): theoretical UB on 32-bit ptrdiff_t with >2^30 element runs; impossible in practice; matches CPython reference; revisit if 32-bit ports are required
