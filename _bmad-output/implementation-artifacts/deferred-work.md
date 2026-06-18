@@ -12,6 +12,17 @@
 - `v5` in `test_correctness` is constructed identically to `v2`; the stated "O(N) path" distinction is not actually different in input construction — matches spec reference implementation but the spec intends them as distinct scenarios; revisit if a future test-quality pass is done
 - `merge_hi` gallop bug fix (gallop_left↔gallop_right swap) is not exercised by Story 2.1 tests; Story 2.2 `test_adversarial()` includes an explicit gallop-trigger block that validates this path
 
+## Deferred from: code review of 2-2-edge-case-type-coverage-and-adversarial-tests (2026-06-18)
+
+- Gallop activation not instrumentally verified: test data structurally guarantees gallop (100 consecutive right wins), ASAN/UBSAN clean, but only std::is_sorted asserted; no internal probe confirms gallop code path ran
+- merge_hi path (len1>len2) never explicitly targeted: all adversarial merges use equal or right-heavier runs; merge_hi gallop logic untested under adversarial pressure
+- Stability not verified for equal strings or equal-key Rec structs: test_type_coverage checks sort order only, not original relative order preserved
+- min_gallop persistence across multiple merges not verified: no test constructs multi-merge input and asserts gallop threshold does not reset between merges
+- N=2 equal-element case missing from test_edge_cases: (7,7) pair not tested
+- N=3 case not tested: smallest range where run extension inserts one element into a 2-element natural run
+- Gallop with mixed-win streaks (entry + exit + re-entry cycle) not tested: adaptive gallop threshold decay/growth cycle is unexercised
+- merge_collapse n-1 branch not exercised: "merge smaller pair first" tiebreaker (when stack[n-1].len < stack[n+1].len) unreachable with current adversarial data
+
 ## Deferred from: code review of 1-3-merge-engine-gallop-and-merge-functions (2026-06-18)
 
 - Signed overflow in gallop `ofs = (ofs<<1)|1` (timsort.hpp): theoretical UB on 32-bit ptrdiff_t with >2^30 element runs; impossible in practice; matches CPython reference; revisit if 32-bit ports are required
