@@ -1,5 +1,13 @@
 # Deferred Work Ledger
 
+## Deferred from: code review of 4-1-readme-algorithm-table-entry (2026-06-18)
+
+- Missing prose description bullet for timsort in README.md: no `- **timsort** is a ...` paragraph below the table; every other algorithm has one; belongs in a future documentation story (not Story 4.1 scope per spec anti-patterns)
+- Missing timsort entry in `doc/single_thread.qbk`: the Boost rendered docs (not README) come from .qbk files; `doc/single_thread.qbk` contains an identical algorithm table that does not include timsort
+- Missing timsort entry in `doc/introduction.qbk`: same as above; `doc/introduction.qbk` has a third copy of the single-thread table without timsort
+- timsort author/copyright omitted from README footer: README lines 76–80 list copyright holders for spreadsort/spinsort/pdqsort; timsort implementation (`timsort.hpp` line 11) carries "Copyright (c) 2026 Ilya Sorokin" which is absent from the README
+- Missing algorithm description link and paper reference: all other algorithms link to Wikipedia or arXiv; Tim Peters' 2002 description and the Wikipedia Timsort article are standard references; belongs with the prose description bullet above
+
 ## Deferred from: code review of 1-4-public-api-overloads-and-library-integration (2026-06-18)
 
 - Exception safety contract (timsort.hpp public API): `timsort()` allocates `run_stack` and `state.buffer`; if either throws mid-sort the range is left in a valid-but-unspecified state with no documented guarantee; add a contract note when exception-safety audit is done across the library
